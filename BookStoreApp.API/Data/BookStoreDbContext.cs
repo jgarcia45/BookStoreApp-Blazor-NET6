@@ -14,9 +14,9 @@ public partial class BookStoreDbContext : IdentityDbContext<ApiUser> {
         : base(options) {
     }
 
-    public virtual DbSet<Author> Authors { get; set; }
+    public virtual DbSet<Author> Authors { get; set; } = null!;
 
-    public virtual DbSet<Book> Books { get; set; }
+    public virtual DbSet<Book> Books { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
@@ -92,7 +92,7 @@ public partial class BookStoreDbContext : IdentityDbContext<ApiUser> {
             },
             new IdentityUserRole<string> {
                 RoleId = "40ea3c8c-f25e-4861-ae90-a1af1e8a18fa",
-                UserId = "f3b3b6ce-6d74-4dce-a2fe-d57fdba157e5"
+                UserId = "45487ca1-e630-4334-8052-caa404e1ac5c"
             });
 
         OnModelCreatingPartial(modelBuilder);

@@ -10,6 +10,7 @@ using BookStoreApp.API.Models.Author;
 using AutoMapper;
 using BookStoreApp.API.Static;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper.QueryableExtensions;
 
 namespace BookStoreApp.API.Controllers {
     [Route("api/[controller]")]
@@ -23,6 +24,7 @@ namespace BookStoreApp.API.Controllers {
         public AuthorsController(BookStoreDbContext context, IMapper mapper, ILogger<AuthorsController> logger) {
             _context = context;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         // GET: api/Authors
@@ -31,28 +33,28 @@ namespace BookStoreApp.API.Controllers {
             //logger.LogInformation($"Request to {nameof(GetAuthor)}");
             try {
                 var authors = await _context.Authors.ToListAsync();
-                var authorsDtos = mapper.Map<IEnumerable<AuthorReadOnlyDto>>(authors);
-                return Ok(authorsDtos);
+                var authorDtos = mapper.Map<IEnumerable<AuthorReadOnlyDto>>(authors);
+                return Ok(authorDtos);
             }
             catch (Exception ex) {
-                logger.LogError(ex, $"Error Performing GET in {nameof(GetAuthor)}");
+                logger.LogError(ex, $"Error Performing GET in {nameof(GetAuthors)}");
                 return StatusCode(500, Messages.Error500Message);
             }
         }
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AuthorReadOnlyDto>> GetAuthor(int id) {
+        public async Task<ActionResult<AuthorDetailsDto>> GetAuthor(int id) {
             try {
-                var author = await _context.Authors.FindAsync(id);
+                var author = await _context.Authors.Include(q => q.Books).ProjectTo<AuthorDetailsDto>(mapper.ConfigurationProvider).FirstOrDefaultAsync(q => q.Id == id);
 
                 if (author == null) {
                     logger.LogWarning($"Record Not Found: {nameof(GetAuthor)} - ID: {id}");
                     return NotFound();
                 }
 
-                var authorDto = mapper.Map<AuthorReadOnlyDto>(author);
-                return Ok(authorDto);
+                //var authorDto = mapper.Map<AuthorReadOnlyDto>(author);
+                return Ok(author);
             }
             catch (Exception ex) {
                 logger.LogError(ex, $"Error Performing GET in {nameof(GetAuthor)}");
