@@ -100,9 +100,9 @@ namespace BookStoreApp.API.Controllers {
 
             var token = new JwtSecurityToken(
                 issuer: configuration["JwtSettings:Issuer"],
-                audience: configuration["JwtSettings: Audience"],
+                audience: configuration["JwtSettings:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(Convert.ToInt32(configuration["JwtSettings: Duration"])),
+                expires: DateTime.UtcNow.AddHours(Convert.ToInt32(configuration["JwtSettings:Duration"])),
                 signingCredentials: credentials
             );
 

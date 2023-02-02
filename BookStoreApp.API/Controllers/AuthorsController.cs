@@ -15,7 +15,7 @@ using AutoMapper.QueryableExtensions;
 namespace BookStoreApp.API.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AuthorsController : ControllerBase {
         private readonly BookStoreDbContext _context;
         private readonly IMapper mapper;

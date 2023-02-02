@@ -342,7 +342,7 @@ namespace BookStoreApp.API.Migrations
                         },
                         new
                         {
-                            UserId = "f3b3b6ce-6d74-4dce-a2fe-d57fdba157e5",
+                            UserId = "45487ca1-e630-4334-8052-caa404e1ac5c",
                             RoleId = "40ea3c8c-f25e-4861-ae90-a1af1e8a18fa"
                         });
                 });
